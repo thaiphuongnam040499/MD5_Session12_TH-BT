@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.18/css/jquery.dataTables.css" />
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.18/js/jquery.dataTables.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            getAllBlog();
+            searchBlog();
+        })
+        function searchBlog() {
+            var search = $('#nameSearch').val()
+            $.ajax({
+                url: `http://localhost:8080/blog/search/${search}`,
+                methodName: "GET",
+                dataType: "json",
+                success: function (data) {
+                    var tableBody = $('#tableBlog tbody');
+                    tableBody.empty();
+                    $(data).each(function (index, element) {
+                        tableBody.append(
+                            '<tr><td>'
+                            + element.title +
+                            '</td><td>'
+                            + element.message +
+                            + '</td><td>');
+                    })
+                }
+            })
+        }
+        function getAllBlog(){
+            $.ajax({
+                url: "http://localhost:8080/blog",
+                methodName: "GET",
+                dataType: "json",
+                success: function (data) {
+                    var tableBody = $('#tableBlog tbody');
+                    tableBody.empty();
+                    $(data).each(function (index, element) {
+                        tableBody.append(
+                            '<tr><td>'
+                            + index +
+                            '</td><td>'
+                            + element.title +
+                            '</td><td><textarea>'
+                            + element.message +
+                            + '</textarea></td></tr>');
+                    })
+                }
+            })
+        }
+    </script>
+</head>
+
+<body>
+    
+    <div>
+        <input type="text" id="nameSearch" onchange="searchBlog()">
+    </div>
+    <table id="tableBlog">
+        <thead>
+            <tr>
+                <th>STT</th>
+                <th>Title</th>
+                <th>Message</th>
+            </tr>
+        </thead>
+        <tbody>
+
+        </tbody>
+    </table>
+</body>
+
+</html>

@@ -1,0 +1,31 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<a th:href="@{/}">
+    <p>Back to list</p>
+</a>
+<form action="/create-blog" method="post" th:object="${blog}">
+    <div>
+        <label>Title</label>
+        <input type="text" th:field="*{title}">
+    </div>
+    <div>
+        <label>Message</label>
+        <textarea type="text" th:field="*{message}"></textarea>
+    </div>
+    <div>
+        <select th:field="*{catalog}">
+            <option th:each="cat:${catalogs}" th:value="${cat.cId}" th:text="${cat.cName}"></option>
+        </select>
+    </div>
+    <div><input type="submit" value="Submit"></div>
+</form>
+</body>
+</html>

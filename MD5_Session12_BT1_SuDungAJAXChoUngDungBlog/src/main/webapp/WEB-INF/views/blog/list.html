@@ -1,0 +1,46 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<a th:href="@{/create-blog}">
+    <p>Add new blog</p>
+</a>
+<form action="">
+    <select name="sort">
+        <option value="Title-ASC">Tăng dần</option>
+        <option value="Title-DESC">Giảm dần</option>
+    </select>
+    <button type="submit">Submit</button>
+</form>
+<table border="1">
+    <thead>
+    <tr>
+        <th>STT</th>
+        <th>Title</th>
+        <th>Message</th>
+        <th colspan="2">Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="blog,blogStat:${blogs}">
+        <td th:text="${blogStat.count}"></td>
+        <td th:text="${blog.title}"></td>
+        <td><textarea th:text="${blog.message}"></textarea></td>
+        <td><a th:href="@{|/edit-blog/${blog.getId()}|}">Edit</a></td>
+        <td><a th:href="@{|/delete/${blog.getId()}|}">Delete</a></td>
+    </tr>
+    </tbody>
+</table>
+<div>
+    <a th:if="${blogs.hasPrevious()}" th:href="@{|/?page=${blogs.number -1}|}">Previous</a>
+    <span th:text="${blogs.number + 1}"></span>/<span th:text="${blogs.getTotalPages()}"></span>
+    <a th:if="${blogs.hasNext()}" th:href="@{|/?page=${blogs.number +1}|}">Next</a>
+</div>
+</body>
+</html>
